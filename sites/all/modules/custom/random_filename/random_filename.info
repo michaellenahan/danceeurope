@@ -1,0 +1,5 @@
+name = Random Filename
+description = (Custom) Acts on online_magazine add to assign a random filename to an uploaded file.
+core = 7.x
+package = Custom
+

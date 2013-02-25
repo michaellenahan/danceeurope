@@ -1,0 +1,49 @@
+#logo {
+  display: none;
+}
+
+#breadcrumb {
+  display: none;
+}
+
+.commerce-product-field-commerce-price {
+  font-size:1.429em; /* same as h2 */
+}
+
+.node-product-display .field-name-field-image img {
+  float:right;
+  margin-left:20px;
+}
+
+/* Remove items from main menu display */
+
+/* Auditions/Jobs */
+li.menu-646 {
+  display: none;
+}
+
+/* Schools/Training */
+li.menu-647 {
+  display: none;
+}
+
+/* Performances */
+li.menu-648 {
+  display: none;
+}
+
+/* Image Galleries */
+li.menu-611 {
+  display: none;
+}
+
+/* Dance People */
+li.menu-649 {
+  display: none;
+}
+
+/* Magazine */
+li.menu-606 {
+  display: none;
+}
+

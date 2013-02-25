@@ -1,0 +1,272 @@
+/* This file will hold the main styles for your website. */
+/* hide page-title for the front page */
+.front #page-title {
+  display:none;
+}
+/* sans-serif font for other page titles */
+#page-title {
+  font-family:futura,sans-serif;
+  /* default font-size is 36px */
+  /*font-size:24px;*/
+}
+/* change background-color */
+body {
+  color:#ffffff;
+  background-color:#231f20;
+  /* background-color:black; */
+}
+/* hide default logo, site name, site slogan */
+#region-branding img, #region-branding h1, #region-branding h2 {
+  display:none;
+}
+/* hide default main menu */
+#main-menu {
+  display:none;
+}
+/* hide secondary menu */
+#secondary-menu {
+  display:none;
+}
+/* hide breadcrumb */
+#breadcrumb {
+  display:none;
+}
+/* full width for central image 
+ * this prevents the right-sidebar bleeding over the central image
+ */
+.front #region-content {
+  width:580px;
+}
+.front aside .grid-3 {
+  width:280px;
+}
+
+/* 2012-06-13 
+ * now using standard language switcher instead of lang_dropdown
+ */
+#block-locale-language li {
+  list-style:none;
+}
+#block-locale-language li .active {
+  display:none;
+}
+#block-locale-language {
+  margin-top:8px;
+  font-weight:bold;
+  text-align:right;
+}
+#block-locale-language a {
+  margin-right:-20px;
+}
+.front #block-locale-language a {
+  margin-right:0px;
+}
+
+/* space after each item in view-latest-issues */
+div.view-latest-issues .field-content {
+  padding-bottom:20px;
+}
+
+a:link {color:white;text-decoration:underline}
+a:visited {color:white;text-decoration:none}
+a:hover {color:white;text-decoration:underline;}
+a:active {color:white;text-decoration:none}
+
+/* On front page, we want white links with no underlines.
+ */
+
+/* block-1 is the english-language left-side-menu */
+#block-block-1 a:link {color:white;text-decoration:none}
+#block-block-1 a:visited {color:white;text-decoration:none}
+#block-block-1 a:hover {color:white;text-decoration:underline;}
+#block-block-1 a:active {color:white;text-decoration:none}
+
+/* block-2 is the spanish-language right-side-menu */
+#block-block-2 a:link {color:white;text-decoration:none}
+#block-block-2 a:visited {color:white;text-decoration:none}
+#block-block-2 a:hover {color:white;text-decoration:underline;}
+#block-block-2 a:active {color:white;text-decoration:none}
+
+/* block-4 is the spanish-language left-side-menu */
+#block-block-4 a:link {color:white;text-decoration:none}
+#block-block-4 a:visited {color:white;text-decoration:none}
+#block-block-4 a:hover {color:white;text-decoration:underline;}
+#block-block-4 a:active {color:white;text-decoration:none}
+
+/* block-5 is the spanish-language right-side-menu */
+#block-block-5 a:link {color:white;text-decoration:none}
+#block-block-5 a:visited {color:white;text-decoration:none}
+#block-block-5 a:hover {color:white;text-decoration:underline;}
+#block-block-5 a:active {color:white;text-decoration:none}
+
+/* Gallery caption */
+.panel-overlay .overlay-inner h3 {
+  font-size:10px;
+  font-family:sans-serif;
+}
+
+/* picture box blocks */
+/* top-left 251 */
+#block-nodeblock-251 {
+  float:left;
+  width:280px;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+#block-nodeblock-251 .block-title {
+  display:none;
+}
+/* hide translation link */
+#block-nodeblock-251 ul.links {
+  display:none;
+}
+/* top-right 253 */
+#block-nodeblock-253 {
+  float:right;
+  width:280px;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+#block-nodeblock-253 .block-title {
+  display:none;
+}
+/* hide translation link */
+#block-nodeblock-253 ul.links {
+  display:none;
+}
+/* bottom-left 255 */
+#block-nodeblock-255 {
+  float:left;
+  width:280px;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+#block-nodeblock-255 .block-title {
+  display:none;
+}
+/* hide translation link */
+#block-nodeblock-255 ul.links {
+  display:none;
+}
+/* bottom-right 257 */
+#block-nodeblock-257 {
+  float:right;
+  width:280px;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+#block-nodeblock-257 .block-title {
+  display:none;
+}
+/* hide translation link */
+#block-nodeblock-257 ul.links {
+  display:none;
+}
+
+/* picturebox-5 418 */
+#block-nodeblock-418 {
+  float:left;
+  width:280px;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+#block-nodeblock-418 .block-title {
+  display:none;
+}
+/* hide translation link */
+#block-nodeblock-418 ul.links {
+  display:none;
+}
+
+/* picturebox-6 419 */
+#block-nodeblock-419 {
+  float:right;
+  width:280px;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+#block-nodeblock-419 .block-title {
+  display:none;
+}
+/* hide translation link */
+#block-nodeblock-419 ul.links {
+  display:none;
+}
+
+/* picturebox-7 420 */
+#block-nodeblock-420 {
+  float:left;
+  width:280px;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+#block-nodeblock-420 .block-title {
+  display:none;
+}
+/* hide translation link */
+#block-nodeblock-420 ul.links {
+  display:none;
+}
+
+/* picturebox-8 421 */
+#block-nodeblock-421 {
+  float:right;
+  width:280px;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+#block-nodeblock-421 .block-title {
+  display:none;
+}
+/* hide translation link */
+#block-nodeblock-421 ul.links {
+  display:none;
+}
+
+.video-block iframe {
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+
+.video-block .block-title {
+  display:none;
+}
+
+.block-nodeblock-424 iframe {
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+
+.block-nodeblock-424 .block-title {
+  display:none;
+}
+
+.block-nodeblock-425 iframe {
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+
+.block-nodeblock-425 .block-title {
+  display:none;
+}
+
+.block-nodeblock-440 iframe {
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+
+.block-nodeblock-440 .block-title {
+  display:none;
+}
