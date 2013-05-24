@@ -41,6 +41,25 @@ body {
   width:280px;
 }
 
+/* 2013-05-24
+ * article content type
+ * has two columns, sidebar and body.
+ */
+.node-type-article .field-name-field-image {
+  margin-bottom: 30px;
+}
+
+.node-type-article .field-name-field-sidebar {
+  float: left;
+  width: 200px;
+  font-size: 16px;
+}
+
+.node-type-article .field-name-body {
+  float: right;
+  width: 430px;
+}
+
 /* 2012-06-13 
  * now using standard language switcher instead of lang_dropdown
  */
