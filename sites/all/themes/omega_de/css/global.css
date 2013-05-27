@@ -289,3 +289,13 @@ a:active {color:white;text-decoration:none}
 .block-nodeblock-440 .block-title {
   display:none;
 }
+
+.block-nodeblock-477 iframe {
+  margin-top:20px;
+  padding-top:10px;
+  border-top:2px solid white;
+}
+
+.block-nodeblock-440 .block-title {
+  display:none;
+}
