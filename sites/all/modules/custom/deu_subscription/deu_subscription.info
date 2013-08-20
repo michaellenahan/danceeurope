@@ -1,0 +1,4 @@
+name = deu_subscription
+description = Dance Europe Subscription User Credits
+core = 7.x
+package = Custom
