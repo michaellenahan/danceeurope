@@ -1,9 +1,7 @@
 <?php
-
 /**
  * @file
- * The core that allows content to be submitted to the site. Modules and
- * scripts may programmatically submit nodes using the usual form API pattern.
+ * Allows us to have digital magazine subscriptions.
  */
 
 /**
@@ -13,6 +11,7 @@
  * If so, adds the first edition to the order.
  */
 function deu_subscription_commerce_checkout_complete($order) {
+  /*
   $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
   $line_item_ids = $order->commerce_line_items[LANGUAGE_NONE];
 
@@ -75,6 +74,7 @@ function deu_subscription_commerce_checkout_complete($order) {
   }
   // Save the order.
   commerce_order_save($order);
+  */
 }
 
 /**
@@ -106,6 +106,8 @@ function _deu_subscription_product_display_submit(&$form, $form_state) {
   // Now we want to find subscribers who should get this edition allocated to
   // them.
   // Query for subscription line items with remaining credits.
+  // TODO make sure the query includes the product language.
+  // We don't want to give spanish editions to english subscribers in error!
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'commerce_line_item')
@@ -115,7 +117,7 @@ function _deu_subscription_product_display_submit(&$form, $form_state) {
   $result = $query->execute();
 
   if ($result) {
-    dpm($result, '$result');
+    // dpm($result, '$result');
     $line_item_ids = array_keys($result['commerce_line_item']);
     foreach ($line_item_ids as $line_item_id) {
       // Get the order in which the subscription line item resides.
@@ -141,82 +143,8 @@ function _deu_subscription_product_display_submit(&$form, $form_state) {
 
       // Save the order.
       commerce_order_save($order);
-      dpm($order);
+      // dpm($order);
       drupal_set_message("<a href='user/" . $order->uid . "/orders/" . $order_id . "'>Subscription order $order_id updated ($credits_remaining credits remaining)</a>.");
     }
   }
 }
-
-/**
- * My first attempt was to update the subscriptions at the time the node or
- * the product was being inserted.
- * This failed because it broke the database transaction, trying to do
- * something with the item being inserted at insertion time didn't work.
- */
-
-/*
-function deu_subscription_node_insert($node) {
-dpm($node, '$node');
-  if ($node->type == 'product_display') {
-    $prod_refs = $node->field_product_reference[LANGUAGE_NONE];
-    foreach ($prod_refs as $prod_ref) {
-      $prod_ids[] = $prod_ref['product_id'];
-    }
-    dpm($prod_refs, '$prod_refs');
-    dpm($prod_ids, '$prod_ids');
-    foreach ($prod_ids as $prod_id) {
-      if ($prod = commerce_product_load($prod_id)) {
-        if (strpos($prod->sku, '--digital-world') > 0) {
-          $digital_edition = $prod;
-        }
-      }
-    }
-    dpm($digital_edition, '$digital_edition');
-
-    // Now we want to find subscribers who should get this edition allocated to
-    // them.
-    // Query for subscription line items with remaining credits
-    $query = new EntityFieldQuery;
-    $query
-      ->entityCondition('entity_type', 'commerce_line_item')
-      ->propertyCondition('line_item_label', '-sub-', 'CONTAINS')
-      ->propertyCondition('line_item_label', '-digital', 'CONTAINS')
-      ->fieldCondition('field_credits', 'value', 0, '>');
-    $result = $query->execute();
-
-    if ($result) {
-      $line_item_ids = array_keys($result['commerce_line_item']);
-      foreach ($line_item_ids as $line_item_id) {
-        // Get the order in which the subscription line item resides.
-        $line_item_sub = commerce_line_item_load($line_item_id);
-        dpm($line_item_sub, '$line_item_sub');
-
-        $order_ids[] = $line_item_sub->order_id;
-        $order = commerce_order_load(order_id);
-
-        // Create a new line item with the fresh edition.
-        $line_item_new = commerce_product_line_item_new($entity, 1, $order->order_id);
-
-        // This causes: The website encountered an unexpected error.
-        // $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
-
-        // Reduce the remaining credits by one.
-        $credits_before =
-          $line_item_sub->field_credits[LANGUAGE_NONE][0]['value'];
-        $credits_remaining = $credits_before - 1;
-        $line_item_sub->field_credits[LANGUAGE_NONE][0]['value'] =
-          $credits_remaining;
-        commerce_line_item_save($line_item_sub);
-        dpm($line_item_sub, '$line_item_sub --- after');
-
-        // Add the line item to the order using the wrapper.
-        // $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
-        // $order_wrapper->commerce_line_items[] = $line_item_new;
-
-        // Save the order.
-        // commerce_order_save($order);
-      }
-    }
-  }
-}
-*/
