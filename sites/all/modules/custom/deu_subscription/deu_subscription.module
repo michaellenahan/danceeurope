@@ -17,6 +17,7 @@ function deu_subscription_commerce_checkout_complete($order) {
   foreach ($line_item_ids as $line_item_id) {
     $line_item_sub = commerce_line_item_load($line_item_id);
     $sku = $line_item_sub->line_item_label;
+    drupal_set_message($sku);
     if (strpos($sku, '-sub-') && strpos($sku, '-digital')) {
       // At this point, we know a digital subscription has just been purchased.
       // Let's give the customer the first edition to which they are entitled.
