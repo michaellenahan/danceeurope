@@ -11,10 +11,10 @@
  * If so, adds the first edition to the order.
  */
 function deu_subscription_commerce_checkout_complete($order) {
-  dpm('hello');
   $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
   $line_item_ids = $order->commerce_line_items[LANGUAGE_NONE];
-
+  dpm($line_item_ids);
+/*
   foreach ($line_item_ids as $line_item_id) {
     $line_item_sub = commerce_line_item_load($line_item_id);
     $sku = $line_item_sub->line_item_label;
@@ -74,6 +74,7 @@ function deu_subscription_commerce_checkout_complete($order) {
   }
   // Save the order.
   commerce_order_save($order);
+*/
 }
 
 /**
