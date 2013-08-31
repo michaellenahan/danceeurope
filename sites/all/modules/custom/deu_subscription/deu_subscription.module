@@ -29,7 +29,6 @@ function deu_subscription_commerce_checkout_complete($order) {
       // $product_lang will be 'en' or 'es'.
       $product_lang = substr($sku, 3, 2);
       drupal_set_message($product_lang, '$product_lang');
-      dpm($product_lang, '$product_lang');
 
       // Get the latest product ...
       $query = new EntityFieldQuery();
@@ -47,7 +46,7 @@ function deu_subscription_commerce_checkout_complete($order) {
         $product_id = $product_ids[0];
       }
       drupal_set_message($product_id);
-/*
+
       // ... and add that product to the user's order.
       if ($product = commerce_product_load($product_id)) {
         // Remove the price of the product. Otherwise, the order will be more
@@ -76,7 +75,6 @@ function deu_subscription_commerce_checkout_complete($order) {
       $credits_remaining = $sub_size_int - 1;
       $line_item_sub->field_credits[LANGUAGE_NONE][0]['value'] = $credits_remaining;
       commerce_line_item_save($line_item_sub);
-*/
     }
   }
   // Save the order.
