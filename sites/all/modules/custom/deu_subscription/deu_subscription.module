@@ -18,13 +18,17 @@ function deu_subscription_commerce_checkout_complete($order) {
     $line_item_sub = commerce_line_item_load($line_item_id);
     $sku = $line_item_sub->line_item_label;
     drupal_set_message($sku);
+    drupal_set_message(strpos($sku, '-sub-'));
+    drupal_set_message(strpos($sku, '-digital'));
     if (strpos($sku, '-sub-') && strpos($sku, '-digital')) {
+      drupal_set_message('it is a digital subscription.');
       // At this point, we know a digital subscription has just been purchased.
       // Let's give the customer the first edition to which they are entitled.
 
       // This should be the latest English or Spanish digital edition.
       // $product_lang will be 'en' or 'es'.
       $product_lang = substr($sku, 3, 2);
+      drupal_set_message($product_lang, '$product_lang');
 
       // Get the latest product ...
       $query = new EntityFieldQuery();
