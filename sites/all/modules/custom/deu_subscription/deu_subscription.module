@@ -11,8 +11,6 @@
  * If so, adds the first edition to the order.
  */
 function deu_subscription_commerce_checkout_complete($order) {
-  drupal_set_message('hello');
-/*
   $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
   $line_item_ids = $order->commerce_line_items[LANGUAGE_NONE];
 
@@ -42,7 +40,8 @@ function deu_subscription_commerce_checkout_complete($order) {
         $product_ids = array_keys($result['commerce_product']);
         $product_id = $product_ids[0];
       }
-
+      drupal_set_message($product_id);
+/*
       // ... and add that product to the user's order.
       if ($product = commerce_product_load($product_id)) {
         // Remove the price of the product. Otherwise, the order will be more
@@ -71,11 +70,11 @@ function deu_subscription_commerce_checkout_complete($order) {
       $credits_remaining = $sub_size_int - 1;
       $line_item_sub->field_credits[LANGUAGE_NONE][0]['value'] = $credits_remaining;
       commerce_line_item_save($line_item_sub);
+*/
     }
   }
   // Save the order.
   commerce_order_save($order);
-*/
 }
 
 /**
