@@ -11,7 +11,7 @@
  * If so, adds the first edition to the order.
  */
 function deu_subscription_commerce_checkout_complete($order) {
-  dpm('hello');
+  drupal_set_message('hello');
 /*
   $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
   $line_item_ids = $order->commerce_line_items[LANGUAGE_NONE];
