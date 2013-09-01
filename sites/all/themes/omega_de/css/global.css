@@ -16,7 +16,7 @@ body {
   /* background-color:black; */
 }
 /* hide default logo, site name, site slogan */
-#region-branding img, #region-branding h1, #region-branding h2 {
+.branding-data img, .branding-data h1, .branding-data h2 {
   display:none;
 }
 /* hide default main menu */
@@ -31,7 +31,7 @@ body {
 #breadcrumb {
   display:none;
 }
-/* full width for central image 
+/* full width for central image
  * this prevents the right-sidebar bleeding over the central image
  */
 .front #region-content {
@@ -60,7 +60,7 @@ body {
   width: 430px;
 }
 
-/* 2012-06-13 
+/* 2012-06-13
  * now using standard language switcher instead of lang_dropdown
  */
 #block-locale-language li {
