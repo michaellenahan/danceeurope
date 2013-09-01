@@ -307,8 +307,8 @@ a:active {color:white;text-decoration:none}
 }
 
 /* center the directory content */
-.deu-center-content {
+.page-node-256 #section-content {
   margin-left: auto;
   margin-right: auto;
-  width: 860px !important;
+  width: 960px;
 }
