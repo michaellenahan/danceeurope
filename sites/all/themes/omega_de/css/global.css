@@ -280,11 +280,6 @@ a:active {color:white;text-decoration:none}
   display:none;
 }
 
-/* Center the content of the directory page */
-.deu-center {
-  text-align: center;
-}
-
 .block-nodeblock-440 iframe {
   margin-top:20px;
   padding-top:10px;
@@ -304,4 +299,9 @@ a:active {color:white;text-decoration:none}
 
 .block-nodeblock-477 .block-title {
   display:none;
+}
+
+/* center the content of the directory page */
+.deu-center {
+  text-align: center;
 }
