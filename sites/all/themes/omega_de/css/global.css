@@ -280,6 +280,11 @@ a:active {color:white;text-decoration:none}
   display:none;
 }
 
+/* center the content of the directory page */
+.deu_center {
+  text-align: center;
+}
+
 .block-nodeblock-440 iframe {
   margin-top:20px;
   padding-top:10px;
