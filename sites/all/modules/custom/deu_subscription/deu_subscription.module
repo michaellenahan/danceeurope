@@ -113,6 +113,7 @@ function _deu_subscription_product_display_submit(&$form, $form_state) {
   // Make sure the query includes the product language.
   // We don't want to give spanish editions to english subscribers in error!
   $product_lang = substr($prod_sku, 3, 2);
+drupal_set_message($prod_sku);
 drupal_set_message($product_lang);
 
   $query = new EntityFieldQuery();
