@@ -2,7 +2,6 @@
 /**
  * @file
  * Allows us to have digital magazine subscriptions.
- * Extra text to test git push test master
  */
 
 /**
@@ -18,18 +17,17 @@ function deu_subscription_commerce_checkout_complete($order) {
   foreach ($line_item_ids as $line_item_id) {
     $line_item_sub = commerce_line_item_load($line_item_id);
     $sku = $line_item_sub->line_item_label;
-    drupal_set_message($sku);
-    drupal_set_message(strpos($sku, '-sub-'));
-    drupal_set_message(strpos($sku, '-digital'));
+drupal_set_message($sku);
+drupal_set_message(strpos($sku, '-sub-'));
+drupal_set_message(strpos($sku, '-digital'));
     if (strpos($sku, '-sub-') && strpos($sku, '-digital')) {
-      drupal_set_message('it is a digital subscription.');
       // At this point, we know a digital subscription has just been purchased.
       // Let's give the customer the first edition to which they are entitled.
 
       // This should be the latest English or Spanish digital edition.
       // $product_lang will be 'en' or 'es'.
       $product_lang = substr($sku, 3, 2);
-      drupal_set_message($product_lang, '$product_lang');
+drupal_set_message($product_lang, '$product_lang');
 
       // Get the latest product ...
       $query = new EntityFieldQuery();
@@ -46,7 +44,7 @@ function deu_subscription_commerce_checkout_complete($order) {
         $product_ids = array_keys($result['commerce_product']);
         $product_id = $product_ids[0];
       }
-      drupal_set_message($product_id);
+drupal_set_message($product_id);
 
       // ... and add that product to the user's order.
       if ($product = commerce_product_load($product_id)) {
@@ -74,7 +72,7 @@ function deu_subscription_commerce_checkout_complete($order) {
       // We have already allocated the first edition, so if the user purchased a
       // 5 issue subscription, there are now 4 left.
       $credits_remaining = $sub_size_int - 1;
-      $line_item_sub->field_credits[LANGUAGE_NONE][0]['value'] = $credits_remaining;
+      $line_item_sub->field_credit[LANGUAGE_NONE][0]['value'] = $credits_remaining;
       commerce_line_item_save($line_item_sub);
     }
   }
@@ -111,14 +109,18 @@ function _deu_subscription_product_display_submit(&$form, $form_state) {
   // Now we want to find subscribers who should get this edition allocated to
   // them.
   // Query for subscription line items with remaining credits.
-  // TODO make sure the query includes the product language.
+
+  // Make sure the query includes the product language.
   // We don't want to give spanish editions to english subscribers in error!
+  $product_lang = substr($prod_sku, 3, 2);
+drupal_set_message($product_lang);
+
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'commerce_line_item')
     ->propertyCondition('line_item_label', '-sub-', 'CONTAINS')
     ->propertyCondition('line_item_label', '-digital', 'CONTAINS')
-    ->fieldCondition('field_credits', 'value', 0, '>');
+    ->fieldCondition('field_credit', 'value', 0, '>');
   $result = $query->execute();
 
   if ($result) {
@@ -136,9 +138,9 @@ function _deu_subscription_product_display_submit(&$form, $form_state) {
 
       // Reduce the remaining credits by one.
       $credits_before
-        = $line_item_sub->field_credits[LANGUAGE_NONE][0]['value'];
+        = $line_item_sub->field_credit[LANGUAGE_NONE][0]['value'];
       $credits_remaining = $credits_before - 1;
-      $line_item_sub->field_credits[LANGUAGE_NONE][0]['value']
+      $line_item_sub->field_credit[LANGUAGE_NONE][0]['value']
         = $credits_remaining;
       commerce_line_item_save($line_item_sub);
 
