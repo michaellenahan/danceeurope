@@ -17,9 +17,6 @@ function deu_subscription_commerce_checkout_complete($order) {
   foreach ($line_item_ids as $line_item_id) {
     $line_item_sub = commerce_line_item_load($line_item_id);
     $sku = $line_item_sub->line_item_label;
-drupal_set_message($sku);
-drupal_set_message(strpos($sku, '-sub-'));
-drupal_set_message(strpos($sku, '-digital'));
     if (strpos($sku, '-sub-') && strpos($sku, '-digital')) {
       // At this point, we know a digital subscription has just been purchased.
       // Let's give the customer the first edition to which they are entitled.
@@ -27,7 +24,6 @@ drupal_set_message(strpos($sku, '-digital'));
       // This should be the latest English or Spanish digital edition.
       // $product_lang will be 'en' or 'es'.
       $product_lang = substr($sku, 3, 2);
-drupal_set_message($product_lang, '$product_lang');
 
       // Get the latest product ...
       $query = new EntityFieldQuery();
@@ -44,7 +40,6 @@ drupal_set_message($product_lang, '$product_lang');
         $product_ids = array_keys($result['commerce_product']);
         $product_id = $product_ids[0];
       }
-drupal_set_message($product_id);
 
       // ... and add that product to the user's order.
       if ($product = commerce_product_load($product_id)) {
@@ -94,65 +89,81 @@ function deu_subscription_form_product_display_node_form_alter(&$form, $form_sta
  * entitled to receive the new digital edition have it added to their order.
  */
 function _deu_subscription_product_display_submit(&$form, $form_state) {
-  $prod_ref_field = $form['field_product_reference'][LANGUAGE_NONE]['#default_value'];
-  $prod_skus = explode(',', $prod_ref_field);
+  if (!isset($form['nid']['#value'])) {
+    $prod_ref_field = $form['field_product_reference'][LANGUAGE_NONE]['#default_value'];
+    $prod_skus = explode(',', $prod_ref_field);
+    $batch = array(
+      'title' => t('Updating subscriptions'),
+      'operations' => array(
+        array('_deu_subscription_update_subs', array($prod_skus)),
+      ),
+    );
+    batch_set($batch);
+  }
+}
 
+/**
+ * Batch function for updating subscription orders with new line items.
+ */
+function _deu_subscription_update_subs($prod_skus, &$context) {
   foreach ($prod_skus as $prod_sku) {
     if (strpos($prod_sku, '--digital-world') > 0) {
       $digital_edition = commerce_product_load_by_sku($prod_sku);
       // Make the price zero, so that we don't inadvertently increase the price
       // of the order after the fact.
       $digital_edition->commerce_price[LANGUAGE_NONE][0]['amount'] = '0';
-    }
-  }
 
-  // Now we want to find subscribers who should get this edition allocated to
-  // them.
-  // Query for subscription line items with remaining credits.
+      // Now we want to find subscribers who should get this edition allocated to
+      // them.
+      // Query for subscription line items with remaining credits.
 
-  // Make sure the query includes the product language.
-  // We don't want to give spanish editions to english subscribers in error!
-  $product_lang = substr($prod_sku, 3, 2);
-drupal_set_message($prod_sku);
-drupal_set_message($product_lang);
+      // Make sure the query includes the product language.
+      // We don't want to give spanish editions to english subscribers in error!
+      $product_lang = substr($prod_sku, 3, 2);
+      drupal_set_message($prod_sku);
+      drupal_set_message($product_lang);
 
-  $query = new EntityFieldQuery();
-  $query
-    ->entityCondition('entity_type', 'commerce_line_item')
-    ->propertyCondition('line_item_label', '-sub-', 'CONTAINS')
-    ->propertyCondition('line_item_label', '-digital', 'CONTAINS')
-    ->fieldCondition('field_credit', 'value', 0, '>');
-  $result = $query->execute();
+      $query = new EntityFieldQuery();
+      $query
+      ->entityCondition('entity_type', 'commerce_line_item')
+      ->propertyCondition('line_item_label', '-sub-', 'CONTAINS')
+      ->propertyCondition('line_item_label', '-digital', 'CONTAINS')
+      ->fieldCondition('field_credit', 'value', 0, '>');
+      $result = $query->execute();
 
-  if ($result) {
-    // dpm($result, '$result');
-    $line_item_ids = array_keys($result['commerce_line_item']);
-    foreach ($line_item_ids as $line_item_id) {
-      // Get the order in which the subscription line item resides.
-      $line_item_sub = commerce_line_item_load($line_item_id);
-      $order_id = $line_item_sub->order_id;
-      $order = commerce_order_load($order_id);
+      if ($result) {
+        // dpm($result, '$result');
+        $line_item_ids = array_keys($result['commerce_line_item']);
+        foreach ($line_item_ids as $line_item_id) {
+          // Get the order in which the subscription line item resides.
+          $line_item_sub = commerce_line_item_load($line_item_id);
+          $order_id = $line_item_sub->order_id;
+          $order = commerce_order_load($order_id);
 
-      // Create a new line item with the fresh edition.
-      $line_item_new = commerce_product_line_item_new($digital_edition, 1, $order->order_id);
-      commerce_line_item_save($line_item_new);
+          // Create a new line item with the fresh edition.
+          $line_item_new = commerce_product_line_item_new($digital_edition, 1, $order->order_id);
+          commerce_line_item_save($line_item_new);
 
-      // Reduce the remaining credits by one.
-      $credits_before
-        = $line_item_sub->field_credit[LANGUAGE_NONE][0]['value'];
-      $credits_remaining = $credits_before - 1;
-      $line_item_sub->field_credit[LANGUAGE_NONE][0]['value']
-        = $credits_remaining;
-      commerce_line_item_save($line_item_sub);
+          // Reduce the remaining credits by one.
+          $credits_before
+            = $line_item_sub->field_credit[LANGUAGE_NONE][0]['value'];
+          $credits_remaining = $credits_before - 1;
+          $line_item_sub->field_credit[LANGUAGE_NONE][0]['value']
+            = $credits_remaining;
+          commerce_line_item_save($line_item_sub);
 
-      // Add the line item to the order using the wrapper.
-      $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
-      $order_wrapper->commerce_line_items[] = $line_item_new;
+          // Add the line item to the order using the wrapper.
+          $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
+          $order_wrapper->commerce_line_items[] = $line_item_new;
 
-      // Save the order.
-      commerce_order_save($order);
-      // dpm($order);
-      drupal_set_message("<a href='user/" . $order->uid . "/orders/" . $order_id . "'>Subscription order $order_id updated ($credits_remaining credits remaining)</a>.");
+          // Save the order.
+          commerce_order_save($order);
+
+          // $context['results'][] = "<a href='user/" . $order->uid . "/orders/" . $order_id . "'>Subscription order $order_id updated ($credits_remaining credits remaining)</a>.";
+
+          drupal_set_message("<a href='/user/" . $order->uid . "/orders/" . $order_id . "'>Subscription order $order_id updated ($credits_remaining credits remaining)</a>.");
+        }
+      }
     }
   }
 }
