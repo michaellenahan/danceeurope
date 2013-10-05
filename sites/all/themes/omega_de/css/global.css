@@ -93,30 +93,10 @@ a:active {color:white;text-decoration:none}
 
 /* On front page, we want white links with no underlines.
  */
-
-/* block-1 is the english-language left-side-menu */
-#block-block-1 a:link {color:white;text-decoration:none}
-#block-block-1 a:visited {color:white;text-decoration:none}
-#block-block-1 a:hover {color:white;text-decoration:underline;}
-#block-block-1 a:active {color:white;text-decoration:none}
-
-/* block-2 is the spanish-language right-side-menu */
-#block-block-2 a:link {color:white;text-decoration:none}
-#block-block-2 a:visited {color:white;text-decoration:none}
-#block-block-2 a:hover {color:white;text-decoration:underline;}
-#block-block-2 a:active {color:white;text-decoration:none}
-
-/* block-4 is the spanish-language left-side-menu */
-#block-block-4 a:link {color:white;text-decoration:none}
-#block-block-4 a:visited {color:white;text-decoration:none}
-#block-block-4 a:hover {color:white;text-decoration:underline;}
-#block-block-4 a:active {color:white;text-decoration:none}
-
-/* block-5 is the spanish-language right-side-menu */
-#block-block-5 a:link {color:white;text-decoration:none}
-#block-block-5 a:visited {color:white;text-decoration:none}
-#block-block-5 a:hover {color:white;text-decoration:underline;}
-#block-block-5 a:active {color:white;text-decoration:none}
+.front a:link {color:white;text-decoration:none}
+.front a:visited {color:white;text-decoration:none}
+.front a:hover {color:white;text-decoration:underline;}
+.front a:active {color:white;text-decoration:none}
 
 /* Gallery caption */
 .panel-overlay .overlay-inner h3 {
