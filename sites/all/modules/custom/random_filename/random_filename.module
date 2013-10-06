@@ -11,7 +11,7 @@
  */
 function random_filename_form_online_magazine_node_form_alter(&$form, &$form_state, $form_id) {
   if (!isset($form['nid']['#value'])) {
-    $form['title']['#default_value'] = 'Online magazine (English)';
+    $form['title']['#default_value'] = 'de-en-XXX';
   }
   // $form['title']['#disabled'] = TRUE;
   $form['field_swf_random_filename']['#disabled'] = TRUE;
@@ -24,7 +24,7 @@ function random_filename_form_online_magazine_node_form_alter(&$form, &$form_sta
  */
 function random_filename_form_online_magazine_spanish__node_form_alter(&$form, &$form_state, $form_id) {
   if (!isset($form['nid']['#value'])) {
-    $form['title']['#default_value'] = 'Online magazine (Spanish)';
+    $form['title']['#default_value'] = 'de-es-XXX';
   }
   // $form['title']['#disabled'] = TRUE;
   $form['field_swf_random_filename']['#disabled'] = TRUE;
@@ -117,6 +117,9 @@ function random_filename_node_presave($node) {
       $product_combo_world->status = 1;
       entity_save('commerce_product', $product_combo_world);
     }
+
+  }
+
     // Copy the swf file to a random filename.
     if (!empty($node->field_swf_file['und'])) {
       $node->field_swf_random_filename['und'][0]['value'] = $random;
@@ -128,5 +131,5 @@ function random_filename_node_presave($node) {
       $dest = 'public://viewer/' . $random . '.swf';
       file_copy($file, $dest, FILE_EXISTS_REPLACE);
     }
-  }
+
 }
