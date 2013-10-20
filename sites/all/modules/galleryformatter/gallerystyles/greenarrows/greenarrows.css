@@ -10,14 +10,18 @@
 .galleryformatter-greenarrows .gallery-thumbs li a:hover,
 .galleryformatter-greenarrows .view-full { background:url("images/sprite.png") no-repeat scroll 0 0 transparent; }
 
+/*ML 2013-10-20*/
 .galleryformatter-greenarrows .gallery-slides .panel-overlay {
   position: absolute;
-  bottom: 0.5em; left: 0;
-  background: transparent url(images/bg-trans.png) repeat;
+  bottom: 0; left: 0;
+  /*background: transparent url(images/bg-trans.png) repeat;*/
+  background-color: black;
   width:100%;
   color: white;
 }
-.galleryformatter-greenarrows .gallery-slides .panel-overlay .overlay-inner { padding: 10px; }
+
+.galleryformatter-greenarrows .gallery-slides .panel-overlay .overlay-inner { padding: 0 10px 0 10px; }
+
 .galleryformatter-greenarrows .gallery-thumbs .wrapper {
   overflow: auto;
   line-height:0;
