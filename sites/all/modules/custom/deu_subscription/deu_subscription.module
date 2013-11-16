@@ -79,7 +79,6 @@ function deu_subscription_commerce_checkout_complete($order) {
  * Implements hook_form_FORM_ID_alter().
  */
 function deu_subscription_form_product_display_node_form_alter(&$form, $form_state, $form_id) {
-dpm($form_id);
   $form['#submit'][] = '_deu_subscription_product_display_submit';
 }
 
