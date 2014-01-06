@@ -303,3 +303,10 @@ a:active {color:white;text-decoration:none}
   margin-left: auto;
   margin-right: auto;
 }
+
+/* center article content */
+.node-type-article #section-content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
+}
