@@ -42,9 +42,9 @@ function random_filename_node_presave($node) {
   // Act when adding a new online_magazine
   if ($node->type == 'online_magazine' || $node->type == 'online_magazine_spanish_') {
     if (empty($node->nid)) {
-    // Set title of online_magazine node to be same as digital-world product
-    // name.
-    // Also, set field_swf_random_filename on the product itself.
+      // Set title of online_magazine node to be same as digital-world product
+      // name.
+      // Also, set field_swf_random_filename on the product itself.
       if (!empty($node->field_digital_product['und'])) {
         $product_id = $node->field_digital_product['und'][0]['product_id'];
         $query = new EntityFieldQuery();
@@ -53,18 +53,18 @@ function random_filename_node_presave($node) {
         ->propertyCondition('product_id', $product_id);
         $result = $query->execute();
         $products = entity_load('commerce_product', array_keys($result['commerce_product']));
-      // Foreach not necessary, we only expect one result.
+        // Foreach not necessary, we only expect one result.
         foreach ($products as $product) {
           $double_dash_pos = strpos($product->sku, '--');
           $sku_head = substr($product->sku, 0, $double_dash_pos);
-        // online_magazine node title set here: it's the first part of the sku,
-        // e.g. de-en-999
+          // online_magazine node title set here: it's the first part of the sku,
+          // e.g. de-en-999
           $node->title = $sku_head;
         }
 
-      // --digital-world product
-      // set status to 1 (so product shows on store)
-      // set field_swf_random_filename
+        // --digital-world product
+        // set status to 1 (so product shows on store)
+        // set field_swf_random_filename
         $query_digital_world = new EntityFieldQuery();
         $query_digital_world
         ->entityCondition('entity_type', 'commerce_product')
@@ -76,9 +76,9 @@ function random_filename_node_presave($node) {
         $product_digital_world->status = 1;
         entity_save('commerce_product', $product_digital_world);
 
-      // --combo-uk product
-      // set status to 1 (so product shows on store)
-      // set field_swf_random_filename
+        // --combo-uk product
+        // set status to 1 (so product shows on store)
+        // set field_swf_random_filename
         $query_combo_uk = new EntityFieldQuery();
         $query_combo_uk
         ->entityCondition('entity_type', 'commerce_product')
@@ -90,9 +90,9 @@ function random_filename_node_presave($node) {
         $product_combo_uk->status = 1;
         entity_save('commerce_product', $product_combo_uk);
 
-      // --combo-eu product
-      // set status to 1 (so product shows on store)
-      // set field_swf_random_filename
+        // --combo-eu product
+        // set status to 1 (so product shows on store)
+        // set field_swf_random_filename
         $query_combo_eu = new EntityFieldQuery();
         $query_combo_eu
         ->entityCondition('entity_type', 'commerce_product')
@@ -104,9 +104,9 @@ function random_filename_node_presave($node) {
         $product_combo_eu->status = 1;
         entity_save('commerce_product', $product_combo_eu);
 
-      // --combo-world product
-      // set status to 1 (so product shows on store)
-      // set field_swf_random_filename
+        // --combo-world product
+        // set status to 1 (so product shows on store)
+        // set field_swf_random_filename
         $query_combo_world = new EntityFieldQuery();
         $query_combo_world
         ->entityCondition('entity_type', 'commerce_product')
@@ -118,14 +118,14 @@ function random_filename_node_presave($node) {
         $product_combo_world->status = 1;
         entity_save('commerce_product', $product_combo_world);
       }
-    // Copy the swf file to a random filename.
+      // Copy the swf file to a random filename.
       if (!empty($node->field_swf_file['und'])) {
         $node->field_swf_random_filename['und'][0]['value'] = $random;
-      // $file is the swf file to be stored privately.
+        // $file is the swf file to be stored privately.
         $file = file_load($node->field_swf_file['und'][0]['fid']);
-      // The copy with the random name will be stored in:
-      // sites/default/files/viewer/
-      // together with swfViewer.php etc.
+        // The copy with the random name will be stored in:
+        // sites/default/files/viewer/
+        // together with swfViewer.php etc.
         $dest = 'public://viewer/' . $random . '.swf';
         file_copy($file, $dest, FILE_EXISTS_REPLACE);
       }
@@ -139,5 +139,72 @@ function random_filename_node_presave($node) {
       $dest = 'public://viewer/' . $random . '.swf';
       $file_copy_result = file_copy($file, $dest, FILE_EXISTS_REPLACE);
     }
+  }
+}
+
+/**
+ * Implements hook_node_access().
+ *
+ * 2014-01-08
+ * Added because anonymous users were previously able to get access to pdf files
+ * if they could guess the urls.
+ *
+ * system/files/pdf_magazine/es_036_LR.pdf
+ *
+ * This code denies access to anonymous. For logged-in users, it checks to see
+ * whether a purchase has been made.
+ */
+function random_filename_node_access($node, $op, $account) {
+  // NOTE: this hook does not run unless the user has at least
+  // 'View published content' rights.
+  // I want to control access to content
+  // on:
+  // Online magazine (English) (Machine name: online_magazine)
+  // Online magazine (Spanish) (Machine name: online_magazine_spanish_)
+  $type = is_string($node) ? $node : $node->type;
+  $uid = $account->uid;
+
+  if ($type == 'online_magazine' || $type == 'online_magazine_spanish_') {
+    // Only allow if not anonymous.
+    if ($uid > 0) {
+      // Always allow editor.
+      if (in_array('editor', array_values($account->roles))) {
+        // Return nothing = allow the default access permission to apply.
+        return;
+      }
+      // Only allow if user has purchased this edition.
+      // This is a slightly amended version of the query in:
+      // sites/default/files/viewer/swfViewer.php
+      $random_filename = $node->field_swf_random_filename[LANGUAGE_NONE][0]['value'];
+      $query = "
+      SELECT
+      commerce_order.uid
+      ,field_data_field_swf_random_filename.field_swf_random_filename_value
+      ,commerce_product.sku
+      FROM commerce_line_item
+      JOIN commerce_order
+      ON commerce_line_item.order_id = commerce_order.order_id
+      JOIN commerce_product
+      ON commerce_line_item.line_item_label = commerce_product.sku
+      JOIN field_data_field_swf_random_filename
+      ON field_data_field_swf_random_filename.entity_id = commerce_product.product_id
+      WHERE (commerce_order.status = 'pending'
+        OR commerce_order.status = 'processing'
+        OR commerce_order.status = 'completed')
+      AND (field_data_field_swf_random_filename.field_swf_random_filename_value = :random_filename)
+      AND (commerce_order.uid = :uid)
+      ";
+      $result = db_query($query,
+        array(
+          ':random_filename' => $random_filename,
+          ':uid' => $uid,
+        )
+      )->fetch();
+      if ($result) {
+        return;
+      }
+    }
+    // Tests have failed so deny access to online_magazine.
+    return NODE_ACCESS_DENY;
   }
 }
