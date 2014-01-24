@@ -306,6 +306,10 @@ a:active {color:white;text-decoration:none}
   margin-right: auto;
 }
 
+.page-node-631 article header {
+  display: none;
+}
+
 /* center article content */
 .node-type-article #section-content {
   margin-left: auto;
