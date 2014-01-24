@@ -1,0 +1,4 @@
+name = deu_article
+description = Dance Europe Article content type.
+core = 7.x
+package = Custom

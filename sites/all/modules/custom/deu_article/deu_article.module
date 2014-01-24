@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Article content type.
+ */
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function deu_article_ds_fields_info($entity_type) {
+  $fields = array();
+  $fields['node']['article_buttons'] = array(
+    'title' => t('Buttons View'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'function' => 'deu_article_buttons_field',
+    'ui_limit' => array('article|full'),
+  );
+  return $fields;
+}
+
+/**
+ * Callback function for hook_ds_fields_info().
+ */
+function deu_article_buttons_field($field) {
+  return views_embed_view('buttons', 'block_10');
+}
