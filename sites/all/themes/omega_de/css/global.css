@@ -340,18 +340,15 @@ a:active {color:white;text-decoration:none}
   margin-right: auto;
 }
 
-.node-type-article .ds-2col > .group-left {
-  /*width: 80%;*/
-  width: 680px;
+/* Move buttons down on rhs */
+.node-type-article #region-sidebar-second {
+  margin-top: 74px;
 }
 
-.node-type-article .ds-2col > .group-right {
-  /*width: 20%;*/
-  width: 260px;
-  float: right;
-}
-
-.node-type-article .field-name-title h2 {
+.node-type-article #page-title {
+  font-family: Georgia,serif;
+  /* Extend to cover the top of the buttons block */
+  margin-right: -200px;
   text-align: center;
   border-top-color: white;
   border-top-width: 2px;
