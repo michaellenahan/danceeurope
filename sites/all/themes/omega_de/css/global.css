@@ -45,22 +45,24 @@ body {
  * article content type
  * has two columns, sidebar and body.
  */
-/*
 .node-type-article .field-name-field-image {
   margin-bottom: 30px;
+  /*float: right;*/
+  margin-right: 20px;
 }
 
 .node-type-article .field-name-field-sidebar {
   float: left;
-  width: 200px;
+  width: 220px;
+  margin-right: 20px;
   font-size: 16px;
 }
 
 .node-type-article .field-name-body {
   float: right;
-  width: 430px;
+  width: 720px;
+  margin-right: 20px;
 }
-*/
 
 /* 2012-06-13
  * now using standard language switcher instead of lang_dropdown
@@ -325,7 +327,7 @@ a:active {color:white;text-decoration:none}
 .node-type-article #section-content {
   margin-left: auto;
   margin-right: auto;
-  width: 960px;
+  /*width: 960px;*/
 }
 
 .node-type-article .view-buttons .field-content {
@@ -335,7 +337,8 @@ a:active {color:white;text-decoration:none}
 }
 
 .node-type-article #zone-header .region-inner {
-  width: 940px;
+  /*width: 940px;*/
+  width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -348,7 +351,7 @@ a:active {color:white;text-decoration:none}
 .node-type-article #page-title {
   font-family: Georgia,serif;
   /* Extend to cover the top of the buttons block */
-  margin-right: -200px;
+  /*margin-right: -200px;*/
   text-align: center;
   border-top-color: white;
   border-top-width: 2px;
